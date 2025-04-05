@@ -36,7 +36,9 @@ export default function App() {
     STATES & VARIABLES
     ---------------------------------------------------------------------- */
 
-    const [remainingSecs, setRemainingSecs] = useState(0);
+    const startingSeconds = 10;
+
+    const [remainingSecs, setRemainingSecs] = useState(startingSeconds);
     const [isActive, setIsActive] = useState(false);
     const { mins, secs } = getRemaining(remainingSecs);
 
@@ -50,7 +52,7 @@ export default function App() {
 
     const onResetPressHandler = () => {
 
-        setRemainingSecs(0);
+        setRemainingSecs(startingSeconds);
         setIsActive(false);
     };
 
@@ -62,11 +64,17 @@ export default function App() {
 
         let interval = null;
 
-        if (isActive) {
+        if (isActive && remainingSecs !== 0) {
 
             interval = setInterval(() => {
-                setRemainingSecs(remainingSecs => remainingSecs + 1);
+                setRemainingSecs(remainingSecs => remainingSecs - 1);
             }, 1000);
+
+        } else if (isActive && remainingSecs === 0) {
+
+            clearInterval(interval);
+            setIsActive(false);
+            setRemainingSecs(startingSeconds);
 
         } else if (!isActive && remainingSecs !== 0) {
 
