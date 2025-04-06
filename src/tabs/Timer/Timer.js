@@ -55,27 +55,6 @@ export default function Timer(props) {
     FUNCTIONS
     ---------------------------------------------------------------------- */
 
-    const getTimerCircleStyle = () => {
-
-        const style = {
-            borderWidth: 10,
-            width: screen.width / 2,
-            height: screen.width / 2,
-            borderRadius: screen.width / 2,
-            borderColor: '#ebebeb',
-            alignItems: 'center',
-            justifyContent: 'center',
-        };
-
-        if (isActive && task !== undefined && task !== null) {
-            style.borderColor = task.color === 'green' ?
-                '#02c437' : task.color === 'blue' ?
-                    '#0276c4' : '#de0d31';
-        }
-
-        return style;
-    };
-
     /* ----------------------------------------------------------------------
     USE-EFFECTS
     ---------------------------------------------------------------------- */
@@ -117,6 +96,71 @@ export default function Timer(props) {
     }, [isActive, remainingSecs]);
 
     /* ----------------------------------------------------------------------
+    CSS STYLES
+    ---------------------------------------------------------------------- */
+
+    const styles = StyleSheet.create({
+        tab: {
+            flex: 1,
+            flexDirection: 'column'
+        },
+        headerContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 200
+        },
+        headerRoutineText: {
+            color: '#fff',
+            fontSize: 20,
+            fontWeight: 'bold'
+        },
+        headerTaskText: {
+            color: '#fff',
+            fontSize: 20
+        },
+        timerContainer: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center'
+        },
+        timerCircle: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: screen.width / 2,
+            height: screen.width / 2,
+            borderRadius: screen.width / 2,
+            borderWidth: 10,
+            borderColor: isActive && task.color === 'green' ?
+                '#02c437' : isActive && task.color === 'blue' ?
+                    'dodgerblue' : isActive && task.color === 'red' ?
+                        '#de0d31' : '#666',
+        },
+        timerText: {
+            color: isActive ? '#fff' : '#666',
+            fontSize: 45
+        },
+        timerButton: {
+            borderWidth: 5,
+            borderColor: isActive ? '#ebebeb' : '#666',
+            borderRadius: screen.width / 5,
+            width: screen.width / 5,
+            height: screen.width / 5,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        footerContainer: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 200
+        },
+        footerText: {
+            color: '#fff',
+            fontSize: 20
+        },
+    });
+
+    /* ----------------------------------------------------------------------
     RENDER
     ---------------------------------------------------------------------- */
 
@@ -125,34 +169,34 @@ export default function Timer(props) {
 
             <View style={styles.headerContainer}>
 
-                <Text style={styles.headerRoutineText}>Routine : {routine.name}</Text>
+                <Text style={styles.headerRoutineText} numberOfLines={1} ellipsizeMode='tail'>Routine : {routine.name}</Text>
 
                 <View style={{ height: 20 }} />
 
-                <Text style={styles.headerTaskText}>{`${task.index + 1}. ${task.name}`}</Text>
+                <Text style={styles.headerTaskText} numberOfLines={1} ellipsizeMode='tail'>{`${task.index + 1} / ${routine.tasks.length} : ${task.name}`}</Text>
 
             </View>
 
             <View style={styles.timerContainer}>
 
                 <TouchableOpacity style={styles.timerButton} onPress={onResetPressHandler}>
-                    <Icon size={30} color='#ebebeb' name='undo' />
+                    <Icon size={30} color={isActive ? '#ebebeb' : '#666'} name='undo' />
                 </TouchableOpacity>
 
-                <View style={getTimerCircleStyle()}>
+                <View style={styles.timerCircle}>
                     <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
                 </View>
 
                 <TouchableOpacity style={styles.timerButton} onPress={onTogglePressHandler}>
-                    <Icon size={30} color='#ebebeb' name={isActive ? 'pause' : 'play'} />
+                    <Icon size={30} color={isActive ? '#ebebeb' : '#666'} name={isActive ? 'pause' : 'play'} />
                 </TouchableOpacity>
 
             </View>
 
             <View style={styles.footerContainer}>
                 {((task.index + 1) < routine.tasks.length) &&
-                    <Text style={styles.footerText}>
-                        {`${task.index + 2}. ${routine.tasks[task.index + 1].name}`}
+                    <Text style={styles.footerText} numberOfLines={1} ellipsizeMode='tail'>
+                        {`Next : ${routine.tasks[task.index + 1].name}`}
                     </Text>
                 }
             </View>
@@ -160,56 +204,3 @@ export default function Timer(props) {
         </View>
     );
 };
-
-/* ----------------------------------------------------------------------
-CSS STYLES
----------------------------------------------------------------------- */
-
-const styles = StyleSheet.create({
-    tab: {
-        flex: 1,
-        flexDirection: 'column'
-    },
-    headerContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 200
-    },
-    headerRoutineText: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    headerTaskText: {
-        color: '#fff',
-        fontSize: 20
-    },
-    timerContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center'
-    },
-    timerText: {
-        color: '#fff',
-        fontSize: 45
-    },
-    timerButton: {
-        borderWidth: 5,
-        borderColor: '#ebebeb',
-        borderRadius: screen.width / 5,
-        width: screen.width / 5,
-        height: screen.width / 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    footerContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 200
-    },
-    footerText: {
-        color: '#fff',
-        fontSize: 20
-    },
-});

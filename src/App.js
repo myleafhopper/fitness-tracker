@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { TabView } from 'react-native-tab-view';
-import { 
-    StyleSheet, 
-    SafeAreaView, 
-    StatusBar, 
+import {
+    StyleSheet,
+    SafeAreaView,
+    StatusBar,
     useWindowDimensions
 } from 'react-native';
 
@@ -57,6 +57,18 @@ export default function App() {
     ---------------------------------------------------------------------- */
 
     /* ----------------------------------------------------------------------
+    CSS STYLES
+    ---------------------------------------------------------------------- */
+
+    const styles = StyleSheet.create({
+        root: {
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: '#07121B'
+        }
+    });
+
+    /* ----------------------------------------------------------------------
     RENDER
     ---------------------------------------------------------------------- */
 
@@ -76,14 +88,3 @@ export default function App() {
     );
 };
 
-/* ----------------------------------------------------------------------
-CSS STYLES
----------------------------------------------------------------------- */
-
-const styles = StyleSheet.create({
-    root: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#07121B'
-    }
-});

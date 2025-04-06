@@ -66,7 +66,7 @@ export default function Routines(props) {
                         <FontAwesomeIcon key={`${key}-edit-icon`} size={18} color='#ebebeb' name='edit' />
                     </TouchableOpacity>
 
-                    <Text key={`${key}-tasks-count`} style={styles.routineTasks}>Tasks : {routine.tasks.length}</Text>
+                    <Text key={`${key}-tasks-count`} style={styles.routineTasks}>Items : {routine.tasks.length}</Text>
 
                     <TouchableOpacity key={`${key}-play-button`} style={styles.routineEditButton} onPress={() => onPlayPressHandler(index)}>
                         <FeatherIcon key={`${key}-play-icon`} size={18} color='#ebebeb' name='play' />
@@ -83,6 +83,59 @@ export default function Routines(props) {
     ---------------------------------------------------------------------- */
 
     /* ----------------------------------------------------------------------
+    CSS STYLES
+    ---------------------------------------------------------------------- */
+
+    const styles = StyleSheet.create({
+        tab: {
+            flex: 1,
+            flexDirection: 'column'
+        },
+        routineContainer: {
+            flexDirection: 'column',
+            margin: 20,
+            padding: 15,
+            borderWidth: 1,
+            borderRadius: 5,
+            borderColor: `rgba(255, 255, 255, 0.3)`,
+            backgroundColor: `rgba(255, 255, 255, 0.1)`
+        },
+        routineName: {
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: '#dbdbdb',
+            marginBottom: 20,
+            paddingBottom: 15,
+            borderBottomWidth: 1,
+            borderBottomColor: '#999'
+        },
+        routineSubContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        },
+        routineTasks: {
+            paddingTop: 7,
+            fontSize: 16,
+            color: '#dbdbdb',
+        },
+        routineEditButton: {
+            paddingHorizontal: 10,
+            width: 50,
+            height: 35,
+            borderWidth: 1,
+            borderRadius: 5,
+            borderColor: 'dodgerblue',
+            backgroundColor: 'dodgerblue',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        routineEditText: {
+            fontSize: 16,
+            color: 'white',
+        },
+    });
+
+    /* ----------------------------------------------------------------------
     RENDER
     ---------------------------------------------------------------------- */
 
@@ -94,56 +147,3 @@ export default function Routines(props) {
         </View>
     );
 };
-
-/* ----------------------------------------------------------------------
-CSS STYLES
----------------------------------------------------------------------- */
-
-const styles = StyleSheet.create({
-    tab: {
-        flex: 1,
-        flexDirection: 'column'
-    },
-    routineContainer: {
-        flexDirection: 'column',
-        margin: 20,
-        padding: 15,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: `rgba(255, 255, 255, 0.3)`,
-        backgroundColor: `rgba(255, 255, 255, 0.1)`
-    },
-    routineName: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: '#dbdbdb',
-        marginBottom: 20,
-        paddingBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#999'
-    },
-    routineSubContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    routineTasks: {
-        paddingTop: 7,
-        fontSize: 16,
-        color: '#dbdbdb',
-    },
-    routineEditButton: {
-        paddingHorizontal: 10,
-        width: 50,
-        height: 35,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'dodgerblue',
-        backgroundColor: 'dodgerblue',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    routineEditText: {
-        fontSize: 16,
-        color: 'white',
-    },
-});
