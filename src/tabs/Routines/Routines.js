@@ -2,17 +2,16 @@ import {
     StyleSheet,
     View,
     Text,
-    Button,
     TouchableOpacity
 } from 'react-native';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-export default function Routines() {
+export default function Routines(props) {
 
     const routines = [{
-        name: 'Standard Workout ABC ABC ABC ABC ABC ABC ABC',
+        name: 'Standard Workout',
         tasks: [
             {
                 index: 0,
@@ -33,9 +32,17 @@ export default function Routines() {
     STATES & VARIABLES
     ---------------------------------------------------------------------- */
 
+    const { setTabIndex } = props;
+
     /* ----------------------------------------------------------------------
     HANDLERS
     ---------------------------------------------------------------------- */
+
+    const onPlayPressHandler = (index) => {
+
+        console.log(index)
+        setTabIndex(1);
+    };
 
     /* ----------------------------------------------------------------------
     FUNCTIONS
@@ -61,7 +68,7 @@ export default function Routines() {
 
                     <Text key={`${key}-tasks-count`} style={styles.routineTasks}>Tasks : {routine.tasks.length}</Text>
 
-                    <TouchableOpacity key={`${key}-play-button`} style={styles.routineEditButton}>
+                    <TouchableOpacity key={`${key}-play-button`} style={styles.routineEditButton} onPress={() => onPlayPressHandler(index)}>
                         <FeatherIcon key={`${key}-play-icon`} size={18} color='#ebebeb' name='play' />
                     </TouchableOpacity>
 

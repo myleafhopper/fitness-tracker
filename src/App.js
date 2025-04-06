@@ -17,21 +17,22 @@ export default function App() {
     ---------------------------------------------------------------------- */
 
     const layout = useWindowDimensions();
-    const [index, setIndex] = React.useState(0);
+    const [tabIndex, setTabIndex] = React.useState(0);
 
     // ----------------------------------------------------------------------
 
     const routes = [
         { key: 'routines', title: 'Routines' },
-        { key: 'timer', title: 'Timer' },
-        // { key: 'charts', title: 'Charts' }
+        { key: 'timer', title: 'Timer' }
     ];
 
     const renderScene = ({ route }) => {
         switch (route.key) {
             case 'routines':
 
-                return <Routines />;
+                return <Routines
+                    setTabIndex={setTabIndex}
+                />;
 
             case 'timer':
 
@@ -65,9 +66,9 @@ export default function App() {
             <StatusBar barStyle='light-content' />
 
             <TabView
-                navigationState={{ index, routes }}
+                navigationState={{ index: tabIndex, routes }}
                 renderScene={renderScene}
-                onIndexChange={setIndex}
+                onIndexChange={setTabIndex}
                 initialLayout={{ width: layout.width }}
             />
 
