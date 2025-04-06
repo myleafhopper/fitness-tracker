@@ -13,49 +13,26 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import {
+    getRemainingTime,
+    getDefaultRoutine,
+    getInitialTask
+} from './Helper';
+
 const screen = Dimensions.get('window');
 
-const formatNumber = number => `0${number}`.slice(-2);
-
-const getRemaining = (time) => {
-
-    const mins = Math.floor(time / 60);
-    const secs = time - mins * 60;
-
-    return {
-        mins: formatNumber(mins),
-        secs: formatNumber(secs)
-    };
-};
-
 export default function Timer(props) {
-
-    const routine = {
-        name: 'Standard Workout',
-        tasks: [
-            {
-                index: 0,
-                name: 'Push Ups',
-                duration: 10,
-                color: 'red'
-            },
-            {
-                index: 1,
-                name: 'Rest',
-                duration: 5,
-                color: 'green'
-            }
-        ]
-    };
 
     /* ----------------------------------------------------------------------
     STATES & VARIABLES
     ---------------------------------------------------------------------- */
 
-    const [task, setTask] = useState(routine.tasks[0]);
+    const routine = getDefaultRoutine(props);
+    const [task, setTask] = useState(getInitialTask(routine));
     const [remainingSecs, setRemainingSecs] = useState(task.duration);
     const [isActive, setIsActive] = useState(false);
-    const { mins, secs } = getRemaining(remainingSecs);
+
+    const { mins, secs } = getRemainingTime(remainingSecs);
 
     /* ----------------------------------------------------------------------
     HANDLERS
@@ -67,8 +44,10 @@ export default function Timer(props) {
 
     const onResetPressHandler = () => {
 
-        setTask(routine.tasks[0]);
-        setRemainingSecs(routine.tasks[0].duration);
+        const task = getInitialTask(routine);
+
+        setTask(task);
+        setRemainingSecs(task.duration);
         setIsActive(false);
     };
 
@@ -218,9 +197,9 @@ const styles = StyleSheet.create({
     timerButton: {
         borderWidth: 5,
         borderColor: '#ebebeb',
+        borderRadius: screen.width / 5,
         width: screen.width / 5,
         height: screen.width / 5,
-        borderRadius: screen.width / 5,
         alignItems: 'center',
         justifyContent: 'center',
     },

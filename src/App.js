@@ -7,8 +7,8 @@ import {
     useWindowDimensions
 } from 'react-native';
 
-import Routines from './tabs/Routines';
-import Timer from './tabs/Timer';
+import Routines from './tabs/Routines/Routines';
+import Timer from './tabs/Timer/Timer';
 
 export default function App() {
 
@@ -19,10 +19,6 @@ export default function App() {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
 
-    // ----------------------------------------------------------------------
-
-    const duration = 15;
-    
     // ----------------------------------------------------------------------
 
     const routes = [
@@ -39,9 +35,7 @@ export default function App() {
 
             case 'timer':
 
-                return <Timer
-                    duration={duration}
-                />;
+                return <Timer />;
 
             default:
 
