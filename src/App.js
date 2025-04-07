@@ -23,13 +23,11 @@ export default function App() {
             repetitions: 1,
             tasks: [
                 {
-                    index: 0,
                     name: 'Push Ups',
                     duration: 10,
                     color: 'red'
                 },
                 {
-                    index: 1,
                     name: 'Rest',
                     duration: 5,
                     color: 'green'
@@ -42,13 +40,12 @@ export default function App() {
             repetitions: 1,
             tasks: [
                 {
-                    index: 0,
+
                     name: 'Wait',
                     duration: 5,
                     color: 'green'
                 },
                 {
-                    index: 1,
                     name: 'Push Ups',
                     duration: 10,
                     color: 'red'
@@ -80,9 +77,7 @@ export default function App() {
                 return <Routines
                     routines={routines}
                     setRoutines={setRoutines}
-
                     setRoutine={setRoutine}
-
                     setTabIndex={setTabIndex}
                 />;
 

@@ -13,9 +13,7 @@ export default function Routines(props) {
     const {
         routines,
         setRoutines,
-
         setRoutine,
-
         setTabIndex
     } = props;
 
@@ -72,8 +70,10 @@ export default function Routines(props) {
                 <Routine
                     id={id}
                     setId={setId}
-                    
+                
+                    routines={routines}
                     setRoutines={setRoutines}
+                    
                     setIsEditing={setIsEditing}
                 />
             }
