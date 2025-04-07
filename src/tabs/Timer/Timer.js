@@ -29,7 +29,10 @@ export default function Timer(props) {
 
     const routine = getDefaultRoutine(props);
     const [task, setTask] = useState(getInitialTask(routine));
+
+    const [taskIndex, setTaskIndex] = useState(0);
     const [remainingSecs, setRemainingSecs] = useState(task.duration);
+    
     const [isActive, setIsActive] = useState(false);
 
     const { mins, secs } = getRemainingTime(remainingSecs);
@@ -47,6 +50,7 @@ export default function Timer(props) {
         const task = getInitialTask(routine);
 
         setTask(task);
+        setTaskIndex(0);
         setRemainingSecs(task.duration);
         setIsActive(false);
     };
@@ -61,18 +65,15 @@ export default function Timer(props) {
 
     useEffect(() => {
 
-        const task = getInitialTask(routine);
-
-        setTask(task);
-        setRemainingSecs(task.duration);
-        setIsActive(false);
+        onResetPressHandler();
 
     }, [routine]);
 
     useEffect(() => {
 
         let interval = null;
-        const nextTaskAvailable = (task.index + 1) < routine.tasks.length;
+        const newTaskIndex = taskIndex + 1;
+        const nextTaskAvailable = newTaskIndex < routine.tasks.length;
 
         if (isActive && remainingSecs >= 0) {
 
@@ -83,9 +84,10 @@ export default function Timer(props) {
         } else if (isActive && remainingSecs < 0 && nextTaskAvailable) {
 
             clearInterval(interval);
-            const nextTask = routine.tasks[task.index + 1];
+            const nextTask = routine.tasks[newTaskIndex];
 
             setTask(nextTask);
+            setTaskIndex(newTaskIndex);
             setRemainingSecs(nextTask.duration);
 
         } else if (isActive && remainingSecs < 0 && !nextTaskAvailable) {
@@ -94,6 +96,7 @@ export default function Timer(props) {
             setIsActive(false);
 
             setTask(routine.tasks[0]);
+            setTaskIndex(0);
             setRemainingSecs(routine.tasks[0].duration);
 
         } else if (!isActive && remainingSecs >= 0) {
@@ -183,7 +186,7 @@ export default function Timer(props) {
 
                 <View style={{ height: 20 }} />
 
-                <Text style={styles.headerTaskText} numberOfLines={1} ellipsizeMode='tail'>{`${task.index + 1} / ${routine.tasks.length} : ${task.name}`}</Text>
+                <Text style={styles.headerTaskText} numberOfLines={1} ellipsizeMode='tail'>{`${taskIndex + 1} / ${routine.tasks.length} : ${task.name}`}</Text>
 
             </View>
 
@@ -204,9 +207,9 @@ export default function Timer(props) {
             </View>
 
             <View style={styles.footerContainer}>
-                {((task.index + 1) < routine.tasks.length) &&
+                {((taskIndex + 1) < routine.tasks.length) &&
                     <Text style={styles.footerText} numberOfLines={1} ellipsizeMode='tail'>
-                        {`Next : ${routine.tasks[task.index + 1].name}`}
+                        {`Next : ${routine.tasks[taskIndex + 1].name}`}
                     </Text>
                 }
             </View>
