@@ -61,6 +61,16 @@ export default function Timer(props) {
 
     useEffect(() => {
 
+        const task = getInitialTask(routine);
+
+        setTask(task);
+        setRemainingSecs(task.duration);
+        setIsActive(false);
+
+    }, [routine]);
+
+    useEffect(() => {
+
         let interval = null;
         const nextTaskAvailable = (task.index + 1) < routine.tasks.length;
 

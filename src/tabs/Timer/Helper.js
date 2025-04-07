@@ -43,9 +43,9 @@ export const getDefaultRoutine = (props) => {
 
 export const getInitialTask = (routine) => {
 
-    if (routine.hasOwnProperty('tasks') &&
-        routine.tasks !== undefined &&
-        routine.tasks !== null &&
+    if (!routine.hasOwnProperty('tasks') ||
+        routine.tasks === undefined ||
+        routine.tasks === null ||
         routine.tasks.length === 0) {
 
         return task;
