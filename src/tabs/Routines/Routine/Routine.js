@@ -96,7 +96,7 @@ export default function Routine(props) {
                 task.duration = Number(taskDuration);
                 task.color = isBlueColor ?
                     'blue' : isGreenColor ?
-                        'green' : isRedColor;
+                        'green' : 'red';
 
             } else {
 
@@ -105,7 +105,7 @@ export default function Routine(props) {
                     duration: taskDuration,
                     color: isBlueColor ?
                         'blue' : isGreenColor ?
-                            'green' : isRedColor
+                            'green' : 'red'
                 });
             }
 
@@ -154,13 +154,23 @@ export default function Routine(props) {
         setRoutines((previousState) => {
 
             const newState = JSON.parse(JSON.stringify(previousState));
+            const index = newState.findIndex(routine => routine.id === id);
 
-            newState.push({
-                id: uuid.v4(),
-                name: routineName,
-                repetitions: Number(repetitions),
-                tasks: tasks
-            });
+            if (index >= 0) {
+
+                newState[index].name = routineName;
+                newState[index].repetitions = Number(repetitions);
+                newState[index].tasks = tasks;
+
+            } else {
+
+                newState.push({
+                    id: uuid.v4(),
+                    name: routineName,
+                    repetitions: Number(repetitions),
+                    tasks: tasks
+                });
+            }
 
             return newState;
         });
