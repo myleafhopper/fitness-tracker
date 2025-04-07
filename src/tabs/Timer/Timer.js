@@ -32,7 +32,8 @@ export default function Timer(props) {
 
     const [taskIndex, setTaskIndex] = useState(0);
     const [remainingSecs, setRemainingSecs] = useState(task.duration);
-    
+    const [repetition, setRepetition] = useState(1);
+
     const [isActive, setIsActive] = useState(false);
 
     const { mins, secs } = getRemainingTime(remainingSecs);
@@ -52,6 +53,8 @@ export default function Timer(props) {
         setTask(task);
         setTaskIndex(0);
         setRemainingSecs(task.duration);
+
+        setRepetition(1);
         setIsActive(false);
     };
 
@@ -74,6 +77,7 @@ export default function Timer(props) {
         let interval = null;
         const newTaskIndex = taskIndex + 1;
         const nextTaskAvailable = newTaskIndex < routine.tasks.length;
+        const nextRepetitionAvailable = repetition < routine.repetitions;
 
         if (isActive && remainingSecs >= 0) {
 
@@ -87,17 +91,29 @@ export default function Timer(props) {
             const nextTask = routine.tasks[newTaskIndex];
 
             setTask(nextTask);
-            setTaskIndex(newTaskIndex);
+            setTaskIndex(previousState => previousState + 1);
             setRemainingSecs(nextTask.duration);
 
-        } else if (isActive && remainingSecs < 0 && !nextTaskAvailable) {
+        } else if (isActive && remainingSecs < 0 && !nextTaskAvailable && nextRepetitionAvailable) {
 
             clearInterval(interval);
-            setIsActive(false);
+            const task = routine.tasks[0];
 
-            setTask(routine.tasks[0]);
+            setTask(task);
             setTaskIndex(0);
-            setRemainingSecs(routine.tasks[0].duration);
+            setRemainingSecs(task.duration);
+            setRepetition(previousState => previousState + 1);
+
+        } else if (isActive && remainingSecs < 0 && !nextTaskAvailable && !nextRepetitionAvailable) {
+
+            clearInterval(interval);
+            const task = routine.tasks[0];
+
+            setTask(task);
+            setTaskIndex(0);
+            setRemainingSecs(task.duration);
+            setRepetition(1);
+            setIsActive(false);
 
         } else if (!isActive && remainingSecs >= 0) {
 
@@ -207,11 +223,21 @@ export default function Timer(props) {
             </View>
 
             <View style={styles.footerContainer}>
+
                 {((taskIndex + 1) < routine.tasks.length) &&
-                    <Text style={styles.footerText} numberOfLines={1} ellipsizeMode='tail'>
-                        {`Next : ${routine.tasks[taskIndex + 1].name}`}
-                    </Text>
+                    <View>
+
+                        <Text style={styles.footerText} numberOfLines={1} ellipsizeMode='tail'>
+                            {`Next : ${routine.tasks[taskIndex + 1].name}`}
+                        </Text>
+
+                        <View style={{ height: 20 }} />
+
+                    </View>
                 }
+
+                <Text style={styles.headerRoutineText}>Repetition : {repetition} / {routine.repetitions}</Text>
+
             </View>
 
         </View>

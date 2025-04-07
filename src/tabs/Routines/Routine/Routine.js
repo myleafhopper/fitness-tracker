@@ -47,7 +47,10 @@ export default function Routine(props) {
     const [isGreenColor, setIsGreenColor] = useState(false);
     const [isRedColor, setIsRedColor] = useState(false);
 
-    const validRoutine = routineName.length > 0 && repetitions.length > 0 && tasks.length > 0;
+    const validRoutine = tasks.length > 0 &&
+        routineName.length > 0 &&
+        repetitions.length > 0 &&
+        Number(repetitions) > 0;
 
     /* ----------------------------------------------------------------------
     HANDLERS
@@ -237,11 +240,6 @@ export default function Routine(props) {
     /* ----------------------------------------------------------------------
     USE-EFFECTS
     ---------------------------------------------------------------------- */
-
-    // useEffect(() => {
-
-    //     const routine = routines.find
-    // }, [id]);
 
     /* ----------------------------------------------------------------------
     CSS STYLES

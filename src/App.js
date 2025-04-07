@@ -20,7 +20,7 @@ export default function App() {
         {
             id: '00000000-0000-0000-0000-000000000000',
             name: 'Standard Workout 1',
-            repetitions: 1,
+            repetitions: 2,
             tasks: [
                 {
                     name: 'Push Ups',
