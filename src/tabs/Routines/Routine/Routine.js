@@ -9,8 +9,8 @@ import {
 
 import { useState, useEffect } from 'react';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-
 import uuid from 'react-native-uuid';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
@@ -46,6 +46,8 @@ export default function Routine(props) {
     const [isBlueColor, setIsBlueColor] = useState(true);
     const [isGreenColor, setIsGreenColor] = useState(false);
     const [isRedColor, setIsRedColor] = useState(false);
+
+    const [tracker, setTracker] = useState(0);
 
     const validRoutine = tasks.length > 0 &&
         routineName.length > 0 &&
@@ -172,6 +174,7 @@ export default function Routine(props) {
                 });
             }
 
+            setTracker(previousState => previousState + 1);
             return newState;
         });
     };
@@ -195,6 +198,7 @@ export default function Routine(props) {
 
             setId(null);
             setIsEditing(false);
+            setTracker(previousState => previousState + 1);
             return newState;
         });
     };
@@ -202,6 +206,10 @@ export default function Routine(props) {
     /* ----------------------------------------------------------------------
     FUNCTIONS
     ---------------------------------------------------------------------- */
+
+    const saveRoutines = async () => {
+        await AsyncStorage.setItem('routines', JSON.stringify(newState));
+    };
 
     const getDisplayableTasks = () => {
 
@@ -250,6 +258,14 @@ export default function Routine(props) {
     /* ----------------------------------------------------------------------
     USE-EFFECTS
     ---------------------------------------------------------------------- */
+
+    useEffect(() => {
+
+        if (tracker > 0) {
+            saveRoutines();
+        }
+
+    }, [tracker]);
 
     /* ----------------------------------------------------------------------
     CSS STYLES

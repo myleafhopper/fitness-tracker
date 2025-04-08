@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabView } from 'react-native-tab-view';
 import {
     StyleSheet,
@@ -6,6 +6,8 @@ import {
     StatusBar,
     useWindowDimensions
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Routines from './tabs/Routines/Routines';
 import Timer from './tabs/Timer/Timer';
@@ -16,43 +18,7 @@ export default function App() {
     STATES & VARIABLES
     ---------------------------------------------------------------------- */
 
-    const [routines, setRoutines] = useState([
-        {
-            id: '00000000-0000-0000-0000-000000000000',
-            name: 'Standard Workout 1',
-            repetitions: 2,
-            tasks: [
-                {
-                    name: 'Push Ups',
-                    duration: 10,
-                    color: 'red'
-                },
-                {
-                    name: 'Rest',
-                    duration: 5,
-                    color: 'green'
-                }
-            ]
-        },
-        {
-            id: '00000000-0000-0000-0000-000000000001',
-            name: 'Standard Workout 2',
-            repetitions: 1,
-            tasks: [
-                {
-
-                    name: 'Wait',
-                    duration: 5,
-                    color: 'green'
-                },
-                {
-                    name: 'Push Ups',
-                    duration: 10,
-                    color: 'red'
-                }
-            ]
-        }
-    ]);
+    const [routines, setRoutines] = useState([]);
 
     const [routine, setRoutine] = useState(null);
 
@@ -101,9 +67,30 @@ export default function App() {
     FUNCTIONS
     ---------------------------------------------------------------------- */
 
+    const getRoutines = async () => {
+
+        try {
+
+            const routines = await AsyncStorage.getItem('routines');
+
+            if (routines !== null) {
+                setRoutines(JSON.parse(routines));
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     /* ----------------------------------------------------------------------
     USE-EFFECTS
     ---------------------------------------------------------------------- */
+
+    useEffect(() => {
+
+        getRoutines();
+
+    }, []);
 
     /* ----------------------------------------------------------------------
     CSS STYLES
