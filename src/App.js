@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { TabView } from 'react-native-tab-view';
 import {
     StyleSheet,
-    SafeAreaView,
+    View,
     StatusBar,
     useWindowDimensions
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as filesystem from 'expo-file-system';
 
 import Routines from './tabs/Routines/Routines';
 import Timer from './tabs/Timer/Timer';
@@ -71,11 +71,15 @@ export default function App() {
 
         try {
 
-            const routines = await AsyncStorage.getItem('routines');
+            const fileUri = filesystem.documentDirectory + 'routines.json';
+            const fileInfo = await filesystem.getInfoAsync(fileUri);
 
-            if (routines !== null) {
-                setRoutines(JSON.parse(routines));
+            if (!fileInfo.exists) {
+                return;
             }
+
+            const content = await filesystem.readAsStringAsync(fileUri);
+            setRoutines(JSON.parse(content));
 
         } catch (error) {
             console.error(error);
@@ -109,9 +113,9 @@ export default function App() {
     ---------------------------------------------------------------------- */
 
     return (
-        <SafeAreaView style={styles.root}>
+        <View style={styles.root}>
 
-            <StatusBar barStyle='light-content' />
+            <StatusBar barStyle='default' />
 
             <TabView
                 navigationState={{ index: tabIndex, routes }}
@@ -120,7 +124,7 @@ export default function App() {
                 initialLayout={{ width: layout.width }}
             />
 
-        </SafeAreaView>
+        </View>
     );
 };
 

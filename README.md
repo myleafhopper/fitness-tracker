@@ -8,3 +8,6 @@
 
 - Install EXPO dependency: `npx expo install {dependency-name}`
 - Run on Android: `npm run android`
+
+- Build for preview (APK): `eas build -p android --profile preview`
+- Build for production (AAB): `eas build --platform android`

@@ -9,7 +9,7 @@ import {
 
 import { useState, useEffect } from 'react';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as filesystem from 'expo-file-system';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import uuid from 'react-native-uuid';
 
@@ -166,8 +166,11 @@ export default function Routine(props) {
 
             } else {
 
+                const id = uuid.v4();
+                setId(id);
+
                 newState.push({
-                    id: uuid.v4(),
+                    id: id,
                     name: routineName,
                     repetitions: Number(repetitions),
                     tasks: tasks
@@ -208,7 +211,15 @@ export default function Routine(props) {
     ---------------------------------------------------------------------- */
 
     const saveRoutines = async () => {
-        await AsyncStorage.setItem('routines', JSON.stringify(newState));
+
+        try {
+
+            const fileUri = filesystem.documentDirectory + 'routines.json';
+            await filesystem.writeAsStringAsync(fileUri, JSON.stringify(routines));
+
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const getDisplayableTasks = () => {
