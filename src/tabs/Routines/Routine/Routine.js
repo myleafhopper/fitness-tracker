@@ -116,6 +116,7 @@ export default function Routine(props) {
             setIsBlueColor(true);
             setIsGreenColor(false);
             setIsRedColor(false);
+            setTaskIndex(null);
 
             return newState;
         });
@@ -444,7 +445,7 @@ export default function Routine(props) {
 
             <View style={styles.inputContainer}>
 
-                <Text style={styles.inputText}>Task duration</Text>
+                <Text style={styles.inputText}>Task Duration</Text>
 
                 <TextInput
                     style={styles.inputTextbox}
